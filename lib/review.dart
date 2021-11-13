@@ -118,15 +118,24 @@ class ReviewRateFormField extends FormField<int> {
           restorationId: restorationId,
           builder: (state) {
             return InputDecorator(
-                child: StarRating(
-                    rating: state.value,
-                    onClick: (rating) {
-                      state.didChange(rating);
-                    }),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      StarRating(
+                          rating: state.value,
+                          onClick: (rating) {
+                            state.didChange(rating);
+                          }),
+                      IconButton(
+                        onPressed: () {
+                          state.didChange(0);
+                        },
+                        icon: const Icon(Icons.clear),
+                        padding: EdgeInsets.zero,
+                      )
+                    ]),
                 decoration: InputDecoration(
                   errorText: state.errorText,
-                  border: InputBorder.none,
-                  isCollapsed: true,
                 ));
           },
         );
@@ -194,6 +203,9 @@ class _ReviewFormState extends State<ReviewForm> {
                         return "Please select a rating";
                       }
                     },
+                  ),
+                  const SizedBox(
+                    height: 10,
                   ),
                   TextFormField(
                       controller: _reviewController,
